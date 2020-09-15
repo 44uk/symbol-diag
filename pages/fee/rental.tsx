@@ -1,29 +1,45 @@
 import fetch from 'node-fetch'
-import Layout from '../../components/Layout'
 import { RentalFeesDTO } from 'symbol-openapi-typescript-fetch-client'
+import Layout from '../../components/Layout'
+import {
+  MainContainer,
+} from '../../styled'
 
 const {
   GATEWAY_URL
 } = process.env
 
+const fetcher = () => fetch(GATEWAY_URL + '/network/fees/rental' || '')
+  .then(resp => resp.json() as Promise<RentalFeesDTO>)
+
+interface IProps extends RentalFeesDTO {
+  timestamp: number
+  height: number
+}
+
 export default function Rental({
   effectiveRootNamespaceRentalFeePerBlock,
   effectiveChildNamespaceRentalFee,
   effectiveMosaicRentalFee
-}: RentalFeesDTO) {
-  return <Layout title="Home | Next.js + TypeScript Example">
+}: IProps) {
+  return (
+  <Layout title="Rental Fee | Symbol Diag">
+    <MainContainer>
     <h1>Fee</h1>
     <ul>
       <li>{effectiveRootNamespaceRentalFeePerBlock}</li>
       <li>{effectiveChildNamespaceRentalFee}</li>
       <li>{effectiveMosaicRentalFee}</li>
     </ul>
+    </MainContainer>
   </Layout>
+  )
 }
 
 export const getServerSideProps = async () => {
-  const path = "/network/fees/rental"
-  const res = await fetch(`${GATEWAY_URL}${path}`)
-  const json = await res.json() as RentalFeesDTO
-  return { props: { ...json } }
+  const resp = await fetcher()
+  return { props: {
+    timestamp: Date.now(),
+    ...resp
+  } }
 }
