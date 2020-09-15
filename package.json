@@ -8,11 +8,14 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
     "next": "^9.5.3",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rxjs": "^6.6.3",
     "styled-components": "^5.2.0",
+    "symbol-openapi-typescript-fetch-client": "^0.9.6",
     "symbol-sdk": "^0.20.7"
   },
   "devDependencies": {

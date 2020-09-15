@@ -1,17 +1,23 @@
+import fetch from 'node-fetch'
 import Layout from '../../components/Layout'
+import { HeightInfoDTO } from 'symbol-openapi-typescript-fetch-client'
 
-function Height({ height }: { height: string }) {
+const {
+  GATEWAY_URL
+} = process.env
+
+export default function Height({
+  height
+}: HeightInfoDTO) {
   return <Layout title="Home | Next.js + TypeScript Example">
     <h1>Current Height</h1>
     <p>{height}</p>
   </Layout>
 }
 
-Height.getInitialProps = async () => {
+export const getServerSideProps = async () => {
   const path = "/chain/height"
-  const res = await fetch(`http://api-01.ap-northeast-1.096x.symboldev.network:3000${path}`)
-  const json = await res.json()
-  return { height: json.height }
+  const res = await fetch(`${GATEWAY_URL}${path}`)
+  const json = await res.json() as HeightInfoDTO
+  return { props: { height: json.height } }
 }
-
-export default Height
