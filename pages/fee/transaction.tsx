@@ -27,10 +27,10 @@ export default function Transaction({
     <MainContainer>
       <h1>Fee</h1>
       <ul>
-        <li>{averageFeeMultiplier}</li>
-        <li>{medianFeeMultiplier}</li>
-        <li>{highestFeeMultiplier}</li>
-        <li>{lowestFeeMultiplier}</li>
+        <li>ave : {averageFeeMultiplier}</li>
+        <li>med : {medianFeeMultiplier}</li>
+        <li>high: {highestFeeMultiplier}</li>
+        <li>low : {lowestFeeMultiplier}</li>
       </ul>
     </MainContainer>
   </Layout>

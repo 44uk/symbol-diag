@@ -4,6 +4,7 @@ import { HeightInfoDTO } from 'symbol-openapi-typescript-fetch-client'
 import Layout from '../../components/Layout'
 import {
   MainContainer,
+  Headline
 } from '../../styled'
 
 const {
@@ -13,9 +14,11 @@ const {
 const fetcher = () => fetch(GATEWAY_URL + '/chain/height' || '')
   .then(resp => resp.json() as Promise<HeightInfoDTO>)
 
+const commarize = (value: string) => value.replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
+
 interface IProps {
   timestamp: number
-  height: number
+  height: string
 }
 
 export default function Height({
@@ -25,9 +28,9 @@ export default function Height({
   return (
   <Layout title="Chain Height | Symbol Diag">
     <MainContainer>
-      <h1>Current Height</h1>
+      <Headline>Chain Height</Headline>
+      <p>{commarize(height)}</p>
       <p>{timestamp}</p>
-      <p>{height}</p>
     </MainContainer>
   </Layout>
   )

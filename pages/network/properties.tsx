@@ -1,8 +1,12 @@
 import fetch from 'node-fetch'
-import { NetworkPropertiesDTO } from 'symbol-openapi-typescript-fetch-client'
+import { NetworkConfigurationDTO } from 'symbol-openapi-typescript-fetch-client'
+import { map } from 'lodash'
 import Layout from '../../components/Layout'
 import {
   MainContainer,
+  PropTable,
+  PropLabel,
+  PropValue,
 } from '../../styled'
 
 const {
@@ -10,30 +14,47 @@ const {
 } = process.env
 
 const fetcher = () => fetch(GATEWAY_URL + '/network/properties')
-  .then(resp => resp.json() as Promise<NetworkPropertiesDTO>)
+  .then(resp => resp.json() as Promise<NetworkConfigurationDTO>)
 
-interface IProps extends NetworkPropertiesDTO {
+interface IProps extends NetworkConfigurationDTO{
   timestamp: number
 }
 
-export default function Rental({
-  epochAdjustment,
-  generationHashSeed,
-  identifier,
-  nemesisSignerPublicKey,
-  nodeEqualityStrategy
-}: IProps) {
+export default function Rental(props: IProps) {
+  const {
+    network,
+    chain,
+    plugins
+  } = props
+
   return (
-  <Layout title="Network Properties | Symbol Diag">
+  <Layout title="Network Configuration | Symbol Diag">
     <MainContainer>
-      <h1>Fee</h1>
-      <ul>
-        <li>{epochAdjustment}</li>
-        <li>{generationHashSeed}</li>
-        <li>{identifier}</li>
-        <li>{nemesisSignerPublicKey}</li>
-        <li>{nodeEqualityStrategy}</li>
-      </ul>
+      <h1>Network Configuration</h1>
+
+      <h2>Network</h2>
+      <div>
+      <PropTable>
+        { Object.keys(network).map(prop => <>
+          <PropLabel>{ prop }</PropLabel>
+          <PropValue>{ (network as any)[prop] }</PropValue>
+        </>) }
+      </PropTable>
+      </div>
+
+      <h2>Chain</h2>
+      <div>
+      <PropTable>
+        { Object.keys(chain).map(prop => <>
+          <PropLabel>{ prop }</PropLabel>
+          <PropValue>{ (chain as any)[prop] }</PropValue>
+        </>) }
+      </PropTable>
+      </div>
+
+      <h2>Plugins</h2>
+      <PropTable>
+      </PropTable>
     </MainContainer>
   </Layout>
   )

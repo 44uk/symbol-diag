@@ -1,6 +1,8 @@
-import Link from 'next/link'
 import useSWR from 'swr'
 import Layout from '../components/Layout'
+import {
+  MainContainer,
+} from '../styled'
 
 interface IPrice {
   USD: number
@@ -22,17 +24,14 @@ const Index = () => {
 
   return (
   <Layout title="Symbol Diag">
-    <h1>Hello Next.js 👋</h1>
-    <ul>
-      <li>{ data.USD } USD</li>
-      <li>{ data.JPY } JPY</li>
-      <li>{ data.EUR } EUR</li>
-    </ul>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
+    <MainContainer>
+      <h1>1 XYM =</h1>
+      <ul>
+        <li>{ data.USD } USD</li>
+        <li>{ data.JPY } JPY</li>
+        <li>{ data.EUR } EUR</li>
+      </ul>
+    </MainContainer>
   </Layout>
   )
 }
